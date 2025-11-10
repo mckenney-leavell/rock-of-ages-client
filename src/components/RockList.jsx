@@ -14,7 +14,7 @@ export const RockList = ({ rocks, fetchRocks }) => {
                         {rock.name} ({rock.type.label}) weighs {rock.weight} kg
                     </div>
                     <div>
-                        In the collection of {rock.user.first_name} {rock.user.last_name}
+                        In the collection of {rock.user?.first_name} {rock.user?.last_name}
                     </div>
                 </div>
             ))
