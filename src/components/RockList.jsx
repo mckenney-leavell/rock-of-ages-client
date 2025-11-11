@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 
-export const RockList = ({ rocks, fetchRocks }) => {
+export const RockList = ({ rocks, fetchRocks, showAll }) => {
 
     useEffect(() => {
-        fetchRocks()
-    }, [])
+        fetchRocks(showAll)
+    }, [showAll])
 
     const displayRocks = () => {
         if (rocks && rocks.length) {
@@ -16,6 +16,27 @@ export const RockList = ({ rocks, fetchRocks }) => {
                     <div>
                         In the collection of {rock.user?.first_name} {rock.user?.last_name}
                     </div>
+                    {showAll ? "" : 
+                        <div>
+                            <button 
+                                className="border border-solid bg-red-700 text-white p-1"
+                                onClick={async () => {
+                                    const response = await fetch(`http://localhost:8000/rocks/${rock.id}`, {
+                                        method: "DELETE",
+                                        headers: {
+                                            Authorization: `Token ${JSON.parse(localStorage.getItem("rock_token")).token}`
+                                        }
+                                    })
+
+                                    if (response.status === 204) {
+                                        fetchRocks(showAll)
+                                    }
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    }
                 </div>
             ))
         }
